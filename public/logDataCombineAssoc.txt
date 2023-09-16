@@ -1,0 +1,27 @@
+Array
+(
+    [expires_in] => 3600
+    [application_token] => a163dbbb9dcaf33d4ad80c6f835a5f42
+    [refresh_token] => dbc72d650066eea00066ee9a0000000100000741a3e21a42d017b6b251c67ea7557ad6
+    [domain] => b24-biyp5d.bitrix24.ru
+    [client_endpoint] => https://b24-biyp5d.bitrix24.ru/rest/
+)
+
+Array
+(
+    [expires_in] => 3600
+    [application_token] => e66276a9c1a203bc48c5a230f6b058b2
+    [refresh_token] => 38c82d650066eea00066ee9a0000000100000717be64aa5994b7a757d956bdeea04b49
+    [domain] => b24-biyp5d.bitrix24.ru
+    [client_endpoint] => https://b24-biyp5d.bitrix24.ru/rest/
+)
+
+Array
+(
+    [expires_in] => 3600
+    [application_token] => d5cd63a887f4ac83dd06236eee437e1d
+    [refresh_token] => 64c82d650066eea00066ee9a00000001000007a91c430b902d2fabdec7fe15cd386666
+    [domain] => b24-biyp5d.bitrix24.ru
+    [client_endpoint] => https://b24-biyp5d.bitrix24.ru/rest/
+)
+
