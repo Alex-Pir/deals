@@ -15,8 +15,6 @@ class CreateEnvironmentAction
      */
     public function execute(SettingsDTO $settingsDTO): void
     {
-        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/logPLACEMENT.txt', print_r($settingsDTO->placement, true) . "\n", FILE_APPEND);
-
         if ($settingsDTO->placement !== SettingsDTO::DEFAULT_PLACEMENT) {
             throw InstallException::installError($settingsDTO->toArray());
         }
