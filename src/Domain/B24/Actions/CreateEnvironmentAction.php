@@ -2,6 +2,7 @@
 
 namespace Domain\B24\Actions;
 
+use App\Events\AfterB24Auth;
 use Domain\B24\DTOs\SettingsDTO;
 use Domain\B24\Exceptions\InstallException;
 use Domain\B24\Models\Environment;
@@ -9,25 +10,28 @@ use Illuminate\Support\Facades\DB;
 
 class CreateEnvironmentAction
 {
+    /**
+     * @throws InstallException
+     */
     public function execute(SettingsDTO $settingsDTO): void
     {
-        try {
-            if ($settingsDTO->placement !== 'DEFAULT') {
-                throw InstallException::installError($settingsDTO->toArray());
-            }
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/logPLACEMENT.txt', print_r($settingsDTO->placement, true) . "\n", FILE_APPEND);
 
-            DB::transaction(function () use ($settingsDTO) {
-                Environment::query()->delete();
-
-                Environment::query()->create(
-                    array_filter(
-                        data_combine_assoc((new Environment())->getFillable(), $settingsDTO->toArray()),
-                        fn ($item) => !is_null($item)
-                    )
-                );
-            });
-        } catch (InstallException $ex) {
-            logger()->error($ex->getMessage());
+        if ($settingsDTO->placement !== SettingsDTO::DEFAULT_PLACEMENT) {
+            throw InstallException::installError($settingsDTO->toArray());
         }
+
+        $environment = DB::transaction(function () use ($settingsDTO) {
+            Environment::query()->delete();
+
+            return Environment::query()->create(
+                array_filter(
+                    data_combine_assoc((new Environment())->getFillable(), $settingsDTO->toArray()),
+                    fn ($item) => !is_null($item)
+                )
+            );
+        });
+
+        AfterB24Auth::dispatch($environment, $settingsDTO->access_token);
     }
 }
