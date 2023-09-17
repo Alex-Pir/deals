@@ -14,7 +14,7 @@ final class AppRegistrar implements RouteRegistrar
     public function map(Registrar $registrar): void
     {
         Route::middleware('web')->group(function () {
-            Route::post('/', HomeController::class)->name('home');
+            Route::any('/', HomeController::class)->name('home');
         });
     }
 }
