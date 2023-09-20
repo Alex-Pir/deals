@@ -4,9 +4,15 @@ namespace App\Http\Requests;
 
 use Domain\B24\DTOs\SettingsDTO;
 use Illuminate\Foundation\Http\FormRequest;
+use Tests\RequestFactories\InstallRequestFactory;
+use Worksome\RequestFactories\Concerns\HasFactory;
 
 class B24InstallRequest extends FormRequest
 {
+    use HasFactory;
+
+    public static string $factory = InstallRequestFactory::class;
+
     public function rules(): array
     {
         return [

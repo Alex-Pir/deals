@@ -28,8 +28,10 @@ class LoadSettings
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (in_array($request->url(), $this->except)) {
-            return $next($request);
+        foreach ($this->except as $value) {
+            if ($request->fullUrlIs("*$value*")) {
+                return $next($request);
+            }
         }
 
         if ($request->session()->has(config('session.token_key'))) {
