@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace App\Routing;
 
 use App\Contracts\RouteRegistrar;
-use App\Http\Controllers\B24Controller;
+use App\Http\Controllers\HomeController;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\Route;
 
-final class B24Registrar implements RouteRegistrar
+final class AppRegistrar implements RouteRegistrar
 {
     public function map(Registrar $registrar): void
     {
         Route::middleware('web')->group(function () {
-            Route::post('/b24/install', [B24Controller::class, 'install'])
-                ->name('b24.install');
+            Route::any('/', HomeController::class)->name('home');
         });
     }
 }

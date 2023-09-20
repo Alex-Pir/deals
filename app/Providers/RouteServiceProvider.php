@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\RouteRegistrar;
+use App\Routing\AppRegistrar;
 use App\Routing\B24Registrar;
 use App\Routing\TemplateRegistrar;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -18,6 +19,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/home';
 
     public array $routers = [
+        AppRegistrar::class,
         B24Registrar::class,
         TemplateRegistrar::class,
     ];
