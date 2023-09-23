@@ -7,7 +7,6 @@ use Domain\B24\Models\Environment;
 use Illuminate\Support\Facades\Event;
 use Tests\B24TestCase;
 
-uses(B24TestCase::class);
 uses()->group('component');
 
 test('POST install 200', function () {
