@@ -28,7 +28,7 @@ class BaseClient
 
         $response = Http::get(config('b24.auth_url'), $parameters);
 
-        if (!$response->successful()) {
+        if (!$response->successful() || $response->json('error')) {
             throw ClientException::requestError(__METHOD__);
         }
 
@@ -60,7 +60,7 @@ class BaseClient
         }
 
         Http::async()->post("$environment->client_endpoint$method.json", $parameters)->then(function ($r) use ($method, $parameters, $environment) {
-            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/logAsyncRes12345.txt', print_r($r->json(), true) . "\n", FILE_APPEND);
+            //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/logAsyncRes12345.txt', print_r($r->json(), true) . "\n", FILE_APPEND);
             return $r;
         })->wait();
     }

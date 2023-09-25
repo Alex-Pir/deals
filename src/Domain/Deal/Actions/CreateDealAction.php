@@ -2,7 +2,7 @@
 
 namespace Domain\Deal\Actions;
 
-class DealCreateAction
+class CreateDealAction
 {
     public function execute(int $id)
     {

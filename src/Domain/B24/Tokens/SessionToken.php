@@ -11,7 +11,7 @@ class SessionToken implements TokenStorage
         return request()->session()->has(config('session.token_key'));
     }
 
-    public function get(): string
+    public function get(): ?string
     {
         return request()->session()->get(config('session.token_key'));
     }

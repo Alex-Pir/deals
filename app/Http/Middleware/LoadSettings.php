@@ -40,7 +40,7 @@ class LoadSettings
         if ($this->tokenStorage->has()) {
             return $next($request);
         }
-file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/logToken.txt', print_r($this->tokenStorage, true) . "\n", FILE_APPEND);
+
         $environment = Cache::rememberForever(CacheEnum::SettingsAll->value, function () {
             return Environment::query()->firstOrFail();
         });

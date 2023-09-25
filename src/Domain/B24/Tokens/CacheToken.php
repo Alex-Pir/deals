@@ -15,7 +15,7 @@ class CacheToken implements TokenStorage
         return Cache::has(static::CACHE_KEY);
     }
 
-    public function get(): string
+    public function get(): ?string
     {
         return Cache::get(static::CACHE_KEY);
     }
@@ -23,5 +23,10 @@ class CacheToken implements TokenStorage
     public function set(string $token): void
     {
         Cache::set(static::CACHE_KEY, $token, static::CACHE_TTL);
+    }
+
+    public static function fake(): void
+    {
+        app()->bind(TokenStorage::class, FakeToken::class);
     }
 }

@@ -5,12 +5,12 @@ use App\Http\Controllers\B24Controller;
 use App\Http\Requests\B24InstallRequest;
 use Domain\B24\Models\Environment;
 use Illuminate\Support\Facades\Event;
-use Tests\B24TestCase;
 
 uses()->group('component');
 
 test('POST install 200', function () {
     Event::fake();
+
     $settingsTable = (new Environment())->getTable();
     $request = B24InstallRequest::factory()->create();
 
