@@ -2,8 +2,6 @@
 
 namespace Support\Client;
 
-use App\Events\AfterB24Auth;
-use Closure;
 use Domain\B24\Contracts\TokenStorage;
 use Domain\B24\Enums\Event;
 use Domain\B24\Models\Environment;
@@ -35,20 +33,7 @@ class BaseClient
         return $response;
     }
 
-    public static function getById(int $id)
-    {
-        static::call('crm.deal.get', ['ID' => 8]);
-    }
-
-    public static function registrationOfHandler(Event $event, Environment $environment): void
-    {
-        static::call('event.bind', [
-            'event' => $event->event(),
-            'handler' => $event->handler()
-        ], $environment);
-    }
-
-    protected static function call(string $method, array $parameters = [], Environment $environment = null)
+    protected static function asyncCall(string $method, array $parameters = [], Environment $environment = null): PromiseInterface
     {
         /** @var TokenStorage $tokenStorage */
         $tokenStorage = app(TokenStorage::class);
@@ -59,9 +44,20 @@ class BaseClient
             $environment = Environment::query()->firstOrFail();
         }
 
-        Http::async()->post("$environment->client_endpoint$method.json", $parameters)->then(function ($r) use ($method, $parameters, $environment) {
-            //file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/logAsyncRes12345.txt', print_r($r->json(), true) . "\n", FILE_APPEND);
-            return $r;
-        })->wait();
+        return Http::async()->post("$environment->client_endpoint$method.json", $parameters);
+    }
+
+    protected static function call(string $method, array $parameters = [], Environment $environment = null): Response
+    {
+        /** @var TokenStorage $tokenStorage */
+        $tokenStorage = app(TokenStorage::class);
+
+        $parameters['auth'] = $tokenStorage->get();
+
+        if (!$environment) {
+            $environment = Environment::query()->firstOrFail();
+        }
+
+        return Http::post("$environment->client_endpoint$method.json", $parameters);
     }
 }

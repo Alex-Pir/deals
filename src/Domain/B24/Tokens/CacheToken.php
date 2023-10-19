@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Cache;
 class CacheToken implements TokenStorage
 {
     protected const CACHE_KEY = 'TOKEN_KEY';
-    protected const CACHE_TTL = 300;
 
     public function has(): bool
     {
@@ -22,7 +21,7 @@ class CacheToken implements TokenStorage
 
     public function set(string $token): void
     {
-        Cache::set(static::CACHE_KEY, $token, static::CACHE_TTL);
+        Cache::set(static::CACHE_KEY, $token, config('b24.token_lifetime'));
     }
 
     public static function fake(): void

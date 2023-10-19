@@ -3,12 +3,20 @@
 namespace Domain\B24\Tokens;
 
 use Domain\B24\Contracts\TokenStorage;
+use Illuminate\Support\Carbon;
 
 class SessionToken implements TokenStorage
 {
     public function has(): bool
     {
-        return request()->session()->has(config('session.token_key'));
+        $sessionTokenKey = config('session.token_key');
+        $sessionTokenCreatedAtKey = config('session.token_created_at');
+
+        return request()->session()->has($sessionTokenKey)
+            && request()->session()->has($sessionTokenCreatedAtKey)
+            && Carbon::parse(request()->session()->get($sessionTokenCreatedAtKey))->addSeconds(
+                config('b24.token_lifetime')
+            )->gt(now());
     }
 
     public function get(): ?string
@@ -19,5 +27,6 @@ class SessionToken implements TokenStorage
     public function set(string $token): void
     {
         request()->session()->put(config('session.token_key'), $token);
+        request()->session()->put(config('session.token_create_at'), now());
     }
 }

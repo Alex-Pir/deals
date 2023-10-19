@@ -3,14 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Domain\B24\Actions\PatchEnvironmentAction;
+use Domain\B24\Actions\AuthAction;
 use Domain\B24\Contracts\TokenStorage;
-use Domain\B24\DTOs\SettingsDTO;
-use Domain\B24\Enums\CacheEnum;
-use Domain\B24\Models\Environment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Support\Client\BaseClient;
 use Support\Exceptions\ClientException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,7 +16,7 @@ class LoadSettings
     ];
 
     public function __construct(
-        private readonly PatchEnvironmentAction $patchEnvironmentAction,
+        private readonly AuthAction $authAction,
         private readonly TokenStorage $tokenStorage
     ) {
     }
@@ -41,13 +36,7 @@ class LoadSettings
             return $next($request);
         }
 
-        $environment = Cache::rememberForever(CacheEnum::SettingsAll->value, function () {
-            return Environment::query()->firstOrFail();
-        });
-
-        $response = BaseClient::auth($environment);
-
-        $this->patchEnvironmentAction->execute($environment, SettingsDTO::fromArray($response->json()));
+        $this->authAction->execute();
 
         return $next($request);
     }

@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DealCreateRequest;
-use Domain\Deal\Actions\CreateDealAction;
 
 class DealController extends Controller
 {
-    public function create(DealCreateRequest $request, CreateDealAction $action): void
+    public function create(): void
     {
-        $action->execute($request->validated()['FIELDS']['ID']);
+
     }
 
     public function patch(): void
