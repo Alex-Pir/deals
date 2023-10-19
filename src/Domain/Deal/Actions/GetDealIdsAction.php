@@ -11,7 +11,7 @@ class GetDealIdsAction
     public function execute(): array
     {
         $response = EventClient::getOfflineEvents(Event::DealCreate);
-print_r($response);
+
         return array_map(fn (EventDTO $eventDto) => $eventDto->data_id, $response);
     }
 }
