@@ -13,7 +13,7 @@ class CreateEnvironmentAction
     /**
      * @throws InstallException
      */
-    public function execute(SettingsDTO $settingsDTO): void
+    public function execute(SettingsDTO $settingsDTO): Environment
     {
         if ($settingsDTO->placement !== SettingsDTO::DEFAULT_PLACEMENT) {
             throw InstallException::installError($settingsDTO->toArray());
@@ -31,5 +31,7 @@ class CreateEnvironmentAction
         });
 
         AfterB24Auth::dispatch($environment, $settingsDTO->access_token);
+
+        return $environment;
     }
 }

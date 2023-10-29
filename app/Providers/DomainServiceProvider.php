@@ -3,18 +3,19 @@
 namespace App\Providers;
 
 use Carbon\Laravel\ServiceProvider;
-use Domain\Template\Providers\TemplateServiceProvider;
+use Domain\B24\Providers\B24ServiceProvider;
+use Domain\Deal\Providers\DealServiceProvider;
 
 class DomainServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
         $this->app->register(
-            \Domain\B24\Providers\B24ServiceProvider::class
+            DealServiceProvider::class
         );
 
         $this->app->register(
-            TemplateServiceProvider::class
+            B24ServiceProvider::class
         );
     }
 }

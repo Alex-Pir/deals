@@ -199,4 +199,5 @@ return [
     'same_site' => 'lax',
 
     'token_key' => 'access_token',
+    'token_created_at' => 'access_token_created_at',
 ];

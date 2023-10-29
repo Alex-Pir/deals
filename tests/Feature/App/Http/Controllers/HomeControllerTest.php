@@ -4,7 +4,6 @@ use App\Http\Controllers\HomeController;
 use Database\Factories\EnvironmentFactory;
 use Tests\B24TestCase;
 
-uses(B24TestCase::class);
 uses()->group('component');
 
 test('GET home page get 200', function () {

@@ -15,7 +15,7 @@ class DomainCommand extends Command
         'QueryBuilders'
     ];
 
-    protected $signature = 'shop:domain';
+    protected $signature = 'deal:domain';
 
     protected $description = 'Make domain';
 
@@ -41,7 +41,6 @@ class DomainCommand extends Command
     protected function registerServiceProvider(): void
     {
         $this->makeDomainServiceProvider($this->domain, 'service_provider');
-        $this->makeDomainServiceProvider('Actions', 'actions_service_provider');
 
         $domainProviderPath = app_path('Providers/DomainServiceProvider.php');
 
