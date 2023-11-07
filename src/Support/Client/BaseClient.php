@@ -33,31 +33,29 @@ class BaseClient
         return $response;
     }
 
-    protected static function asyncCall(string $method, array $parameters = [], Environment $environment = null): PromiseInterface
+    protected static function prepareParameters(array $parameters): array
     {
         /** @var TokenStorage $tokenStorage */
         $tokenStorage = app(TokenStorage::class);
 
         $parameters['auth'] = $tokenStorage->get();
 
-        if (!$environment) {
-            $environment = Environment::query()->firstOrFail();
-        }
-
-        return Http::async()->post("$environment->client_endpoint$method.json", $parameters);
+        return $parameters;
     }
 
-    protected static function call(string $method, array $parameters = [], Environment $environment = null): Response
+    protected static function asyncCall(string $method, array $parameters = []): PromiseInterface
     {
-        /** @var TokenStorage $tokenStorage */
-        $tokenStorage = app(TokenStorage::class);
+        return Http::async()->post(
+            environment()->client_endpoint . "$method.json",
+            static::prepareParameters($parameters)
+        );
+    }
 
-        $parameters['auth'] = $tokenStorage->get();
-
-        if (!$environment) {
-            $environment = Environment::query()->firstOrFail();
-        }
-
-        return Http::post("$environment->client_endpoint$method.json", $parameters);
+    protected static function call(string $method, array $parameters = []): Response
+    {
+        return Http::post(
+            environment()->client_endpoint . "$method.json",
+            static::prepareParameters($parameters)
+        );
     }
 }

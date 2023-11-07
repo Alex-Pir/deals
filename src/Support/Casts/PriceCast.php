@@ -12,7 +12,7 @@ class PriceCast implements CastsAttributes
 
     public function get($model, string $key, $value, array $attributes): Price
     {
-        return $this->createPrice($value);
+        return Price::make($value);
     }
 
     public function set($model, string $key, $value, array $attributes): mixed

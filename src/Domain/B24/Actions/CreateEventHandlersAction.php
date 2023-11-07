@@ -3,15 +3,14 @@
 namespace Domain\B24\Actions;
 
 use Domain\B24\Enums\Event;
-use Domain\B24\Models\Environment;
 use Support\Client\EventClient;
 
 class CreateEventHandlersAction
 {
-    public function execute(Environment $environment): void
+    public function execute(): void
     {
         foreach (Event::cases() as $event) {
-            EventClient::registrationOfHandler($event, $environment);
+            EventClient::registrationOfHandler($event);
         }
     }
 }

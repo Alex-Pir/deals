@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
+use App\Views\ViewModels\DealViewModel;
 
 class HomeController extends Controller
 {
-    public function __invoke(): View|Factory|Application
+    public function __invoke(): DealViewModel
     {
-        return view('index');
+        return (new DealViewModel())->view('index');
     }
 }

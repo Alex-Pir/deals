@@ -8,9 +8,9 @@ use Support\Client\EventClient;
 
 class GetDealIdsAction
 {
-    public function execute(): array
+    public function execute(Event $event): array
     {
-        $response = EventClient::getOfflineEvents(Event::DealCreate);
+        $response = EventClient::getOfflineEvents($event);
 
         return array_map(fn (EventDTO $eventDto) => $eventDto->data_id, $response);
     }

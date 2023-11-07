@@ -20,8 +20,8 @@ class B24Controller extends Controller
         CreateEnvironmentAction $environmentAction,
         CreateEventHandlersAction $eventHandlersAction
     ): View|Factory|Application {
-        $environment = $environmentAction->execute($request->createDTO());
-        $eventHandlersAction->execute($environment);
+        $environmentAction->execute($request->createDTO());
+        $eventHandlersAction->execute();
 
         return view('install');
     }

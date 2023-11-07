@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DealCreateRequest;
-
 class DealController extends Controller
 {
     public function create(): void

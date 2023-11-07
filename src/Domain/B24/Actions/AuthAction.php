@@ -3,9 +3,6 @@
 namespace Domain\B24\Actions;
 
 use Domain\B24\DTOs\SettingsDTO;
-use Domain\B24\Enums\CacheEnum;
-use Domain\B24\Models\Environment;
-use Illuminate\Support\Facades\Cache;
 use Support\Client\BaseClient;
 use Support\Exceptions\ClientException;
 
@@ -21,10 +18,7 @@ class AuthAction
      */
     public function execute(): void
     {
-        $environment = Cache::rememberForever(
-            CacheEnum::SettingsAll->value,
-            fn () => Environment::query()->firstOrFail()
-        );
+        $environment = environment();
 
         $response = BaseClient::auth($environment);
 
